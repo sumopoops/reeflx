@@ -84,8 +84,6 @@ float invisTick = 0;
 float invisSwitch = INVIS_SWITCH_START;
 Triangle *triangles;
 float scale, playAreaX;
-bool assetsLoaded = false;
-bool firstLaunch = true;
 
 
 
@@ -370,14 +368,14 @@ int main() {
 	// Load assets
 	Image sprite_image = LoadImageFromMemory(".png", sprites_png, sprites_png_len);
 	Texture2D TX_sprites = LoadTextureFromImage(sprite_image);
-	Sound SND_bleep;
-	Sound SND_looseLife;
-	Sound SND_click;
-	Sound SND_final_attack;
-	Music MUS_title;
-	Music MUS_world1;
-	Music MUS_world2;
-	Music MUS_world3;
+	Sound SND_bleep = LoadSound("snd/bleep.ogg");
+	Sound SND_looseLife = LoadSound("snd/lifeloss.ogg");
+	Sound SND_click = LoadSound("snd/click.ogg");
+	Sound SND_final_attack = LoadSound("snd/final_attack.ogg");
+	Sound SND_title_music = LoadSound("snd/title_music.ogg");
+	Music MUS_world1 = LoadMusicStream("snd/world1.ogg");
+	Music MUS_world2 = LoadMusicStream("snd/world2.ogg");
+	Music MUS_world3 = LoadMusicStream("snd/world3.ogg");
 	SND_gameover = LoadSound("snd/gameover.ogg");
 	SND_win = LoadSound("snd/win.ogg");
 
@@ -386,6 +384,7 @@ int main() {
     SetTargetFPS(60);
 	ResetLevel();
 	PopulateTriangles();
+	PlaySound(SND_title_music);
 
     while (!WindowShouldClose()) {
 
@@ -393,18 +392,12 @@ int main() {
 
 		if (gameMode == GAMEMODE_TITLE) {
 
-			if ((firstLaunch == true) && (assetsLoaded == true)) {
-				PlayMusicStream(MUS_title);
-				firstLaunch = false;
-			}
-			UpdateMusicStream(MUS_title);
-
 			if (controlsEnabled) {
 				switch (GetKeyPressed()) {
 					case KEY_ENTER: case KEY_A: case KEY_S: case KEY_K: case KEY_L:
 						InitSpriteArray();
 						gameMode = GAMEMODE_HELP;
-						StopMusicStream(MUS_title);
+						StopSound(SND_title_music);
 						PlaySound(SND_click);
 				}
 			}
@@ -655,18 +648,6 @@ int main() {
 		DrawTexturePro(target.texture, (Rectangle){0, 0, screenWidth, -screenHeight}, (Rectangle){playAreaX, 0, screenWidth*scale, screenHeight*scale}, (Vector2){0, 0}, 0, WHITE);
         EndDrawing();
 
-		// Load Assets
-		if (assetsLoaded == false) {
-			SND_bleep = LoadSound("snd/bleep.ogg");
-			SND_looseLife = LoadSound("snd/lifeloss.ogg");
-			SND_click = LoadSound("snd/click.ogg");
-			SND_final_attack = LoadSound("snd/final_attack.ogg");
-			MUS_world1 = LoadMusicStream("snd/world1.ogg");
-			MUS_world2 = LoadMusicStream("snd/world2.ogg");
-			MUS_world3 = LoadMusicStream("snd/world3.ogg");
-			MUS_title = LoadMusicStream("snd/title_music.ogg");
-			assetsLoaded = true;
-		} 
     }
 
 	// Unload Assets
@@ -677,7 +658,7 @@ int main() {
 	UnloadSound(SND_win);
 	UnloadSound(SND_final_attack);
 	UnloadSound(SND_gameover);
-	UnloadMusicStream(MUS_title);
+	UnloadSound(SND_title_music);
 	UnloadMusicStream(MUS_world1);
 	UnloadMusicStream(MUS_world2);
 	UnloadMusicStream(MUS_world3);
