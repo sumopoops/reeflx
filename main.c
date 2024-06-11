@@ -1,5 +1,7 @@
 #include "sprites.h"
+#include "sounds.h"
 #include "include/raylib.h"
+#include "music.h"
 #include <stdlib.h>
 #define GRID_WIDTH 6
 #define GRID_HEIGHT 5
@@ -365,19 +367,23 @@ int main() {
 	Sprite SP_gameover = {{780, 67, 60, 60}, {0, 0}};
 	Sprite SP_pressA = {{43, 61, 27, 5}, {16, 47}};
 
-	// Load assets
+	// Load sprites
 	Image sprite_image = LoadImageFromMemory(".png", sprites_png, sprites_png_len);
+
+	// Load sounds
 	Texture2D TX_sprites = LoadTextureFromImage(sprite_image);
-	Sound SND_bleep = LoadSound("snd/bleep.ogg");
-	Sound SND_looseLife = LoadSound("snd/lifeloss.ogg");
-	Sound SND_click = LoadSound("snd/click.ogg");
-	Sound SND_final_attack = LoadSound("snd/final_attack.ogg");
-	Sound SND_title_music = LoadSound("snd/title_music.ogg");
-	Music MUS_world1 = LoadMusicStream("snd/world1.ogg");
-	Music MUS_world2 = LoadMusicStream("snd/world2.ogg");
-	Music MUS_world3 = LoadMusicStream("snd/world3.ogg");
-	SND_gameover = LoadSound("snd/gameover.ogg");
-	SND_win = LoadSound("snd/win.ogg");
+	Sound SND_bleep = LoadSoundFromWave(LoadWaveFromMemory(".ogg", bleep_ogg, bleep_ogg_len));
+	Sound SND_click = LoadSoundFromWave(LoadWaveFromMemory(".ogg", click_ogg, click_ogg_len));
+	Sound SND_final_attack = LoadSoundFromWave(LoadWaveFromMemory(".ogg", final_attack_ogg, final_attack_ogg_len));
+	SND_gameover = LoadSoundFromWave(LoadWaveFromMemory(".ogg", gameover_ogg, gameover_ogg_len));
+	Sound SND_looseLife = LoadSoundFromWave(LoadWaveFromMemory(".ogg", lifeloss_ogg, lifeloss_ogg_len));
+
+	// Load music
+	Sound SND_title_music = LoadSoundFromWave(LoadWaveFromMemory(".ogg", title_music_ogg, title_music_ogg_len));
+	SND_win = LoadSoundFromWave(LoadWaveFromMemory(".ogg", win_ogg, win_ogg_len));
+	Music MUS_world1 = LoadMusicStreamFromMemory(".ogg", world1_ogg, world1_ogg_len);
+	Music MUS_world2 = LoadMusicStreamFromMemory(".ogg", world2_ogg, world2_ogg_len);
+	Music MUS_world3 = LoadMusicStreamFromMemory(".ogg", world3_ogg, world3_ogg_len);
 
 	// Init
 	RenderTexture2D target = LoadRenderTexture(screenWidth, screenHeight);
