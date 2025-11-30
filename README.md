@@ -3,7 +3,6 @@ A short pixel art game that tests your reflexes. Hit the key that matches the en
 <br><br>
 Created as a small project to learn C. Uses the excellent [RayLib](https://www.raylib.com) library.
 
-<br><br>
-<img src="https://static.itch.io/images/badge-color.svg" alt="itch.io logo" width="140">
+<br>
 
-[Download REEFLX on itch.io](https://sumopoops.itch.io/reeflx)
+[<img src="https://static.itch.io/images/badge-color.svg" alt="itch.io logo" width="140">](https://sumopoops.itch.io/reeflx)
